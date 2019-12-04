@@ -1,3 +1,6 @@
+/*
+Webhook to integrate Dialogflow with Salesforce .
+*/
 "use strict";
 
 const express = require("express");
