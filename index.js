@@ -12,7 +12,7 @@ restService.use(
 );
 
 restService.use(bodyParser.json());
-restService.listen(3000, () => console.log('[Bot] Webhook is listening'));
+restService.listen(process.env.PORT || 3000, () => console.log('[Bot] Webhook is listening'));
 restService.post("/webhook", async(req, res) => {
   var speech =
     req.body.queryResult &&
