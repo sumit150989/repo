@@ -18,6 +18,7 @@ const bodyParser = require("body-parser");
 const sf = require('node-salesforce');
 const restService = express();
 var accountId = null;
+var isUserResponseNeeded = true;
 restService.use(
 	bodyParser.urlencoded({
 		extended: true
@@ -69,7 +70,8 @@ restService.post("/webhook", async(req, res) => {
                         ' I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
                         ' We are here to help you. Do you have any Concern ?';}
                 else  {
-                speech = 'Seems like some problem. Speak again.';    
+                speech = 'Seems like some problem. Speak again.'; 
+                isUserResponseNeeded = true;   
                 }
 				console.log(speech);
 			}
@@ -101,6 +103,7 @@ restService.post("/webhook", async(req, res) => {
 						' Your case number is :' + result.records[0].CaseNumber +
 						' One of our Agents will get back you within 48 hrs.' +
                         ' I hope this solves your problem.';
+                    isUserResponseNeeded = false;
 					console.log(speech);
 				}
 			);
@@ -120,7 +123,8 @@ restService.post("/webhook", async(req, res) => {
 			if (err || !ret.success) {
 				return console.error(err, ret);
 			}
-			speech = 'Thankyou for your interest in KPN. I have registered your detials one of our Agent\'s will reach you shortly.';
+            speech = 'Thankyou for your interest in KPN. I have registered your detials one of our Agent\'s will reach you shortly.';
+            isUserResponseNeeded = fasle;
             console.log("Created Lead record with id : " + ret.id);
             console.log(speech);
 		});
@@ -129,7 +133,7 @@ restService.post("/webhook", async(req, res) => {
 
 	var speechResponse = {
 		google: {
-			expectUserResponse: false,
+			expectUserResponse: isUserResponseNeeded,
 			richResponse: {
 				items: [{
 					simpleResponse: {
