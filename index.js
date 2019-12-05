@@ -63,10 +63,14 @@ restService.post("/webhook", async(req, res) => {
 				if (err) {
 					return console.error('query error:' + err);
 				}
-				accountId = result.records[0].Id;
+                if(!result) {
+                accountId = result.records[0].Id;
                 speech = 'Hi, '+ result.records[0].Name+' Thank you for the information.' +
                         ' I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
-                        ' We are here to help you. Do you have any Concern ?';
+                        ' We are here to help you. Do you have any Concern ?';}
+                else  {
+                speech = 'Seems like some problem. Speak again.';    
+                }
 				console.log(speech);
 			}
 		);
@@ -125,7 +129,7 @@ restService.post("/webhook", async(req, res) => {
 
 	var speechResponse = {
 		google: {
-			expectUserResponse: true,
+			expectUserResponse: false,
 			richResponse: {
 				items: [{
 					simpleResponse: {
