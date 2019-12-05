@@ -108,7 +108,8 @@ restService.post("/webhook", async(req, res) => {
 			Phone: req.body.queryResult.parameters.PHONENUMBER,
 			Status: 'Open - Not Contacted',
 			PostalCode: req.body.queryResult.parameters.ZIPCODE,
-			Street: req.body.queryResult.parameters.HOUSENUMBER
+            Street: req.body.queryResult.parameters.HOUSENUMBER,
+            LeadSource: 'Chatbot'    
 		}, function (err, ret) {
 			if (err || !ret.success) {
 				return console.error(err, ret);
