@@ -58,13 +58,15 @@ restService.post("/webhook", async(req, res) => {
 
 	if (intent == 'check_subscription') {
 		var records = [];
-		await conn.query("SELECT Id, Name FROM Account where CustomerId__c = '" + req.body.queryResult.parameters.ID + "'",
+		await conn.query("SELECT Id, Name,Existing_Subscriptions__c,Bill_due_date__c,Latest_bill_amount__c FROM Account where CustomerId__c = '" + req.body.queryResult.parameters.ID + "'",
 			function (err, result) {
 				if (err) {
 					return console.error('query error:' + err);
 				}
 				accountId = result.records[0].Id;
-				speech = 'Welcome ' + result.records[0].Name;
+                speech = 'Hi '+ result.records[0].Name+' Thank you for the information.' +
+                        '\n I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
+                        '\n We are here to help you. Do you have any Concern ?';
 				console.log(speech);
 			}
 		);
@@ -91,9 +93,10 @@ restService.post("/webhook", async(req, res) => {
 					if (err) {
 						return console.error('query error:' + err);
 					}
-					speech = 'We have logged a case for your concern.' +
-						'\nYou case number is :' + result.records[0].CaseNumber +
-						'\nOne of our Agents will get back you within 48 hrs.';
+					speech = 'Sad to hear that. I have logged a case for your concern.' +
+						'\nYour case number is :' + result.records[0].CaseNumber +
+						'\nOne of our Agents will get back you within 48 hrs.' +
+                        '\nI hope this solves your problem. && exit 1';
 					console.log(speech);
 				}
 			);
@@ -107,15 +110,14 @@ restService.post("/webhook", async(req, res) => {
 			LastName: req.body.queryResult.parameters.LASTNAME,
 			Phone: req.body.queryResult.parameters.PHONENUMBER,
 			Status: 'Open - Not Contacted',
-			PostalCode: req.body.queryResult.parameters.ZIPCODE,
-            Street: req.body.queryResult.parameters.HOUSENUMBER,
+            Street: req.body.queryResult.parameters.ADDRESS,
             LeadSource: 'Chatbot'    
 		}, function (err, ret) {
 			if (err || !ret.success) {
 				return console.error(err, ret);
 			}
-			speech = 'Thankyou for your interest in KPN. \nOur Agent will reach you shortly, for details related to offerings.';
-            console.log("Created Lead record id : " + ret.id);
+			speech = 'Thankyou for your interest in KPN. \nOur Agent will reach you shortly. && exit 1';
+            console.log("Created Lead record with id : " + ret.id);
             console.log(speech);
 		});
 
