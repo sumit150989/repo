@@ -64,7 +64,7 @@ restService.post("/webhook", async(req, res) => {
 					return console.error('query error:' + err);
 				}
 				accountId = result.records[0].Id;
-                speech = 'Hi '+ result.records[0].Name+' Thank you for the information.' +
+                speech = 'Hi, '+ result.records[0].Name+' Thank you for the information.' +
                         ' I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
                         ' We are here to help you. Do you have any Concern ?';
 				console.log(speech);
@@ -96,7 +96,7 @@ restService.post("/webhook", async(req, res) => {
 					speech = 'Sad to hear that. I have logged a case for your concern.' +
 						' Your case number is :' + result.records[0].CaseNumber +
 						' One of our Agents will get back you within 48 hrs.' +
-                        ' I hope this solves your problem. && exit 1';
+                        ' I hope this solves your problem.';
 					console.log(speech);
 				}
 			);
@@ -116,7 +116,7 @@ restService.post("/webhook", async(req, res) => {
 			if (err || !ret.success) {
 				return console.error(err, ret);
 			}
-			speech = 'Thankyou for your interest in KPN. \nOur Agent will reach you shortly.';
+			speech = 'Thankyou for your interest in KPN. I have registered your detials one of our Agent\'s will reach you shortly.';
             console.log("Created Lead record with id : " + ret.id);
             console.log(speech);
 		});
