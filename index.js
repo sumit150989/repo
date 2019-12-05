@@ -63,7 +63,7 @@ restService.post("/webhook", async(req, res) => {
 				if (err) {
 					return console.error('query error:' + err);
 				}
-                if(!result) {
+                if(result.totalSize>0) {
                 accountId = result.records[0].Id;
                 speech = 'Hi, '+ result.records[0].Name+' Thank you for the information.' +
                         ' I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
