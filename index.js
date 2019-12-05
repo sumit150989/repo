@@ -123,8 +123,8 @@ restService.post("/webhook", async(req, res) => {
 			if (err || !ret.success) {
 				return console.error(err, ret);
 			}
-            speech = 'Thankyou for your interest in KPN. I have registered your detials one of our Agent\'s will reach you shortly.';
-            isUserResponseNeeded = fasle;
+            speech = 'Thankyou for your interest in KPN. I have registered your details one of our Agent\'s will reach you shortly.';
+            isUserResponseNeeded = false;
             console.log("Created Lead record with id : " + ret.id);
             console.log(speech);
 		});
