@@ -74,7 +74,7 @@ restService.post("/webhook", async(req, res) => {
 		await conn.sobject("Case").create({
 			AccountID: accountId,
 			Subject: req.body.queryResult.parameters.SUBJECT,
-			Origin: 'Phone',
+			Origin: 'Chatbot',
 			Status: 'New'
 		}, function (err, ret) {
 			if (err || !ret.success) {
