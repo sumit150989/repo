@@ -68,7 +68,8 @@ restService.post("/webhook", async(req, res) => {
                 accountId = result.records[0].Id;
                 speech = 'Hi, '+ result.records[0].Name+' Thank you for the information.' +
                         ' I see you are holding  '+result.records[0].Existing_Subscriptions__c+ ' with KPN.'+
-                        ' We are here to help you. Do you have any Concern ?';}
+                        ' We are here to help you. Do you have any Concern ?';
+                isUserResponseNeeded = true;   }
                 else  {
                 speech = 'Seems like some problem. Speak again.'; 
                 isUserResponseNeeded = true;   
